@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class MainActivity extends AppCompatActivity {
     private List<Uri> mSelected;
-    private static final int REQUEST_CODE_CHOOSE = 998;
+    public static final int REQUEST_CODE_CHOOSE = 998;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
                 Matisse.from(MainActivity.this)
                         .choose(MimeType.allOf())
                         .countable(true)
-                        .maxSelectable(9)
+                        .maxSelectable(1)
                         .gridExpectedSize(getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
                         .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
                         .thumbnailScale(0.85f)
@@ -46,7 +46,13 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
             mSelected = Matisse.obtainResult(data);
+            String path = FileUtils.getFilePathFromUri(mSelected.get(0), this);
             Log.d("Matisse", "mSelected: " + mSelected);
+            Log.d("Matisse", "path: " + path);
+            Intent intent = new Intent();
+            intent.putExtra("sourceUri", mSelected.get(0).toString());
+            intent.setClass(this, CropActivity.class);
+            startActivity(intent);
         }
     }
 }

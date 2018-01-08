@@ -7,7 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
@@ -20,12 +22,14 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     private List<Uri> mSelected;
     public static final int REQUEST_CODE_CHOOSE = 998;
+    private ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        findViewById(R.id.iv_choose_photos).setOnClickListener(new View.OnClickListener() {
+        imageView = (ImageView) findViewById(R.id.iv_show_photo);
+        findViewById(R.id.iv_choose_photo).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Matisse.from(MainActivity.this)
@@ -39,6 +43,21 @@ public class MainActivity extends AppCompatActivity {
                         .forResult(REQUEST_CODE_CHOOSE);
             }
         });
+        findViewById(R.id.iv_crop_photo).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mSelected == null || mSelected.size() < 1) {
+                    return;
+                }
+                String path = FileUtils.getFilePathFromUri(mSelected.get(0), MainActivity.this);
+                Log.d("Matisse", "mSelected: " + mSelected);
+                Log.d("Matisse", "path: " + path);
+                Intent intent = new Intent();
+                intent.putExtra("sourceUri", mSelected.get(0).toString());
+                intent.setClass(MainActivity.this, CropActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -46,13 +65,7 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
             mSelected = Matisse.obtainResult(data);
-            String path = FileUtils.getFilePathFromUri(mSelected.get(0), this);
-            Log.d("Matisse", "mSelected: " + mSelected);
-            Log.d("Matisse", "path: " + path);
-            Intent intent = new Intent();
-            intent.putExtra("sourceUri", mSelected.get(0).toString());
-            intent.setClass(this, CropActivity.class);
-            startActivity(intent);
+            Glide.with(this).load(mSelected.get(0)).into(imageView);
         }
     }
 }

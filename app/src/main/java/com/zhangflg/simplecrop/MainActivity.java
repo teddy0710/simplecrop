@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.zhihu.matisse.Matisse;
@@ -22,6 +23,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     private List<Uri> mSelected;
     public static final int REQUEST_CODE_CHOOSE = 998;
+    public static final int REQUEST_CODE_CROP = 997;
     private ImageView imageView;
 
     @Override
@@ -55,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent();
                 intent.putExtra("sourceUri", mSelected.get(0).toString());
                 intent.setClass(MainActivity.this, CropActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_CODE_CROP);
             }
         });
     }
@@ -67,5 +69,10 @@ public class MainActivity extends AppCompatActivity {
             mSelected = Matisse.obtainResult(data);
             Glide.with(this).load(mSelected.get(0)).into(imageView);
         }
+        if (requestCode == REQUEST_CODE_CROP && resultCode == RESULT_OK) {
+            String path = data.getStringExtra("result");
+            Glide.with(this).load(path).into(imageView);
+        }
+
     }
 }

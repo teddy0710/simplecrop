@@ -44,6 +44,7 @@ public class CropActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initView() {
         mCropView = (CropImageView) findViewById(R.id.cropImageView);
+
     }
 
     private void initChoosePhoto() {
@@ -178,13 +179,6 @@ public class CropActivity extends AppCompatActivity implements View.OnClickListe
                 mCropView.setCropMode(CropImageView.CropMode.CIRCLE_SQUARE);
             }
         });
-        findViewById(R.id.tv_storage).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mCropView.getActualCropRect();
-            }
-        });
-
     }
 
 
@@ -204,6 +198,10 @@ public class CropActivity extends AppCompatActivity implements View.OnClickListe
                 .execute(new CropCallback() {
                     @Override
                     public void onSuccess(Bitmap cropped) {
+                        String sourceFilePath = FileUtils.getFilePathFromUri(sourceUri, CropActivity.this);
+                        String newFilePath = sourceFilePath.substring(0, sourceFilePath.length() - 4) + System.currentTimeMillis() + ".jpg";
+                        File file = new File(newFilePath);
+                        newUri = Uri.fromFile(file);
                         mCropView.save(cropped)
                                 .execute(newUri, new SaveCallback() {
                                     @Override
@@ -236,10 +234,6 @@ public class CropActivity extends AppCompatActivity implements View.OnClickListe
             mSelected = Matisse.obtainResult(data);
             Glide.with(this).load(mSelected.get(0)).into(mCropView);
             sourceUri = Uri.parse(String.valueOf(mSelected.get(0)));
-            String sourceFilePath = FileUtils.getFilePathFromUri(sourceUri, this);
-            String newFilePath = sourceFilePath.substring(0, sourceFilePath.length() - 4) + "c.jpg";
-            File file = new File(newFilePath);
-            newUri = Uri.fromFile(file);
             initCropView();
 
         }

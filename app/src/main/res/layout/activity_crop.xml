@@ -13,104 +13,123 @@
 
         <TextView
             android:id="@+id/tv_169"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
             android:padding="5dp"
             android:text="16:9" />
 
         <TextView
             android:id="@+id/tv_916"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
             android:padding="5dp"
             android:text="9:16" />
 
         <TextView
             android:id="@+id/tv_43"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
             android:padding="5dp"
             android:text="4:3" />
 
         <TextView
             android:id="@+id/tv_34"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
             android:padding="5dp"
             android:text="3:4" />
 
 
         <TextView
-            android:id="@+id/tv_free_rect"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:text="自由矩形" />
-
-        <TextView
             android:id="@+id/tv_default"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
             android:padding="5dp"
             android:text="默认" />
 
         <TextView
             android:id="@+id/tv_fit"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="center"
             android:padding="5dp"
             android:text="适应图片" />
+
         <ImageButton
             android:id="@+id/iv_choose_photo"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:scaleType="fitXY"
             android:src="@drawable/icon_add" />
+
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical">
+
         <TextView
-            android:id="@+id/tv_storage"
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_free_rect"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
             android:padding="5dp"
-            android:text="记忆选框" />
+            android:text="自由矩形" />
 
         <TextView
             android:id="@+id/tv_circle"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
             android:padding="5dp"
             android:text="圆" />
 
         <TextView
             android:id="@+id/tv_rect_circle"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
             android:padding="5dp"
             android:text="矩形圆" />
 
         <TextView
             android:id="@+id/tv_shun"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
             android:padding="5dp"
             android:text="顺时针" />
 
         <TextView
             android:id="@+id/tv_ni"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
             android:padding="5dp"
             android:text="逆时针" />
 
+
         <ImageView
             android:id="@+id/iv_crop"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:src="@mipmap/ic_launcher" />
     </LinearLayout>
 

@@ -29,7 +29,6 @@ import java.util.List;
  */
 public class CropActivity extends AppCompatActivity implements View.OnClickListener {
     public static final int REQUEST_CODE_CHOOSE = 998;
-    public static final int REQUEST_CODE_CROP = 997;
     private List<Uri> mSelected;
     private CropImageView mCropView;
     private Uri sourceUri;
@@ -39,8 +38,12 @@ public class CropActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crop);
-        mCropView = (CropImageView) findViewById(R.id.cropImageView);
+        initView();
         initChoosePhoto();
+    }
+
+    private void initView() {
+        mCropView = (CropImageView) findViewById(R.id.cropImageView);
     }
 
     private void initChoosePhoto() {
@@ -63,7 +66,7 @@ public class CropActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
-    private void initView() {
+    private void initCropView() {
         mCropView.load(sourceUri).useThumbnail(true).execute(new LoadCallback() {
             @Override
             public void onSuccess() {
@@ -75,6 +78,7 @@ public class CropActivity extends AppCompatActivity implements View.OnClickListe
                 Log.e("LoadCallback", "加载图片失败:" + e.toString());
             }
         });
+
         findViewById(R.id.iv_crop).setOnClickListener(this);
         mCropView.setCompressFormat(Bitmap.CompressFormat.JPEG);
         mCropView.setCompressQuality(100);
@@ -205,7 +209,10 @@ public class CropActivity extends AppCompatActivity implements View.OnClickListe
                                     @Override
                                     public void onSuccess(Uri uri) {
                                         Log.e("CropCallback", "裁剪图片成功" + uri.toString());
-                                        Glide.with(CropActivity.this).load(newUri).into(mCropView);
+                                        Intent intent = new Intent();
+                                        intent.putExtra("photo", uri.toString());
+                                        intent.setClass(CropActivity.this, CropedActivity.class);
+                                        startActivity(intent);
                                     }
 
                                     @Override
@@ -233,7 +240,7 @@ public class CropActivity extends AppCompatActivity implements View.OnClickListe
             String newFilePath = sourceFilePath.substring(0, sourceFilePath.length() - 4) + "c.jpg";
             File file = new File(newFilePath);
             newUri = Uri.fromFile(file);
-            initView();
+            initCropView();
 
         }
     }

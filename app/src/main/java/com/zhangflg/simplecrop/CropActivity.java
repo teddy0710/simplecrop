@@ -51,9 +51,6 @@ public class CropActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.iv_choose_photo).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mSelected != null) {
-                    mSelected.clear();
-                }
                 Matisse.from(CropActivity.this)
                         .choose(MimeType.allOf())
                         .countable(true)
@@ -231,6 +228,9 @@ public class CropActivity extends AppCompatActivity implements View.OnClickListe
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
+            if (mSelected != null && mSelected.size() > 0) {
+                mSelected.clear();
+            }
             mSelected = Matisse.obtainResult(data);
             Glide.with(this).load(mSelected.get(0)).into(mCropView);
             sourceUri = Uri.parse(String.valueOf(mSelected.get(0)));
